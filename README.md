@@ -458,3 +458,80 @@ export default InputSample;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133440217-26b7534a-f6bc-4be7-b916-0d46c3f2c11a.png>
+
+---
+### :blue_heart: 여러개의 input상태 관리하기
+
+:file_folder:App.js
+
+```
+import React from 'react';
+import InputSample from './InputSample';
+
+
+function App() {
+  return (
+    <InputSample />
+  )
+}
+
+export default App;
+```
+
+:file_folder:InputSample.js
+
+```
+import React, { useState } from 'react';
+
+function InputSample() {
+    const [inputs, setInputs] = useState({
+        name: '',
+        nickname: '',
+    });
+    const { name, nickname } = inputs;
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+
+        setInputs ({
+            ...inputs,
+            [name]: value,
+        });
+    };
+
+    const onReset = () => {
+        setInputs({
+            name: '',
+            nickname: '',
+        });
+    };
+
+    return (
+        <div>
+            <input 
+            name="name" 
+            placeholder="이름"
+            onChange={onChange} 
+            value={name} 
+            />
+            <input 
+            name="nickname" 
+            placeholder="닉네임" 
+            onChange={onChange} 
+            value={nickname} 
+            />
+            <button onClick={onReset}>초기화</button>
+            <div>
+                <b>값: </b>
+                {name} ({nickname})
+            </div>
+        </div>
+    );
+}
+
+export default InputSample;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133443683-c9010f18-6889-47e3-9f46-f4c1d1b19f59.png>
