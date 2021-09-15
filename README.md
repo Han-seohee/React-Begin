@@ -290,7 +290,7 @@ import Wrapper from './Wrapper';
 function App() {
   return (
     <Wrapper>
-      <Hello name="react" color="red" isSpecial={true} />   //{true} 생략 가능. 생략하면 true로 간주
+      <Hello name="react" color="red" isSpecial={true} />   {/*{true} 생략 가능. 생략하면 true로 간주*/}
       <Hello color="pink" />
     </Wrapper>
   );
@@ -383,11 +383,11 @@ function Counter() {
     const [number, setNumber] = useState(0);
 
     const onIncrease = () => {
-        setNumber(prevNumber => prevNumber + 1);   //함수형
+        setNumber(prevNumber => prevNumber + 1);   {/*함수형*/}
     }
 
     const onDecrease = () => {
-        setNumber(prevNumber => prevNumber -1);   // setNumber(number -1); 로도 쓸수있음
+        setNumber(prevNumber => prevNumber -1);   {/*setNumber(number -1); 로도 쓸수있음*/}
     }
     return (
         <div>
@@ -404,3 +404,57 @@ export default Counter;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133435426-a6da2ecd-2b5f-413a-a67b-d9a8f07bba9b.png>
+
+---
+### :blue_heart: input상태 관리하기
+
+:file_folder:App.js
+
+```
+import React from 'react';
+import InputSample from './InputSample';
+
+
+function App() {
+  return (
+    <InputSample />
+  )
+}
+
+export default App;
+```
+
+:file_folder:InputSample.js
+
+```
+import React, { useState } from 'react';
+
+function InputSample() {
+    const [text, setText] = useState('');
+
+    const onChange = (e) => {
+        setText(e.target.value);
+    };
+
+    const onReset = () => {
+        setText('');
+    };
+
+    return (
+        <div>
+            <input onChange={onChange} value={text} />    {/*value={text}가 중요*/}
+            <button onClick={onReset}>초기화</button>
+            <div>
+                <b>값: </b>
+                {text}
+            </div>
+        </div>
+    );
+}
+
+export default InputSample;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133440217-26b7534a-f6bc-4be7-b916-0d46c3f2c11a.png>
