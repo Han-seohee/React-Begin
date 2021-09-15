@@ -664,3 +664,331 @@ export default UserList;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133449641-6048566c-7eab-49e1-badc-2d73c2a74fe1.png>
+
+---
+### :blue_heart: useRef로 useRef로 컴포넌트 안의 변수 만들기
+
+>리렌더링 돼도 특정 변수를 기억하고 싶을 때 (컴포넌트에 리렌더링 되진 않음)
+
+:file_folder:App.js
+
+```
+import React, { useRef } from 'react';
+import UserList from './UserList';
+
+
+function App() {
+  const users = [
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com'
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com'
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com'
+    }
+];
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+
+  console.log(nextId.current); // 4
+  nextId.current += 1;
+}
+
+  return (
+    <UserList users={users}/>
+  )
+}
+
+export default App;
+
+```
+
+:file_folder:UserList.js
+
+```
+import React from 'react';
+
+function User({ user }) {
+    return (
+        <div>
+            <b>{user.username}</b> <span>({user.email})</span>
+        </div>
+    );
+}
+
+function UserList({ users }) {
+
+    return (
+        <div>
+            {
+                users.map(
+                    (user, index) => (<User user={user} key={user.id} />)
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+---
+### :blue_heart: 배열에 항목 추가하기
+
+:file_folder:App.js
+
+```
+import React, { useDebugValue, useRef, useState } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com'
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com'
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com'
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  setInputs({
+    username: '',
+    email: ''
+  });
+  console.log(nextId.current); // 4
+  nextId.current += 1;
+}
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users}/>
+    </>
+  )
+}
+
+export default App;
+```
+
+:file_folder:CreateUser.js
+
+```
+import React from 'react';
+
+function CreateUser({ username, email, onChange, onCreate }) {
+    return (
+        <div>
+            <input
+            name="username"
+            placeholder="계정명"
+            onChange={onChange}
+            value={username}
+            />
+            <input
+            name="email"
+            placeholder="이메일"
+            onChange={onChange}
+            value={email} />
+            <button onClick={onCreate}>등록</button>
+        </div>
+    );
+}
+
+export default CreateUser;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133455038-f578abfb-20e9-4f6a-a821-fcb92db984ff.png>
+
+:point_down: 항목 추가하기
+
+1. spread
+
+:file_folder:App.js
+
+```
+import React, { useDebugValue, useRef, useState } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com'
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com'
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com'
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers([...users, user]);
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+}
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users}/>
+    </>
+  )
+}
+
+export default App;
+```
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133455615-debf332b-71b5-44e3-a5b0-55b663a5b341.png>
+
+2. concat
+
+:file_folder:App.js
+
+```
+import React, { useDebugValue, useRef, useState } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com'
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com'
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com'
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+}
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users}/>
+    </>
+  )
+}
+
+export default App;
+```
