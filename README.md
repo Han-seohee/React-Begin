@@ -270,4 +270,137 @@ export default Wrapper;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133423456-255c5a68-491d-42f7-843f-3e8cc2a3d1ce.png>
+
 ---
+### :blue_heart:조건부 렌더링
+
+특정 조건이 참인지 거짓인지에 따라 다른 결과를 보여줌
+
+>삼항연산자 (내용이 바뀌어야 할 때)
+
+:file_folder:App.js
+
+```
+import React from 'react';
+import Hello from './Hello';
+import Wrapper from './Wrapper';
+// import Counter from './Counter';
+
+
+function App() {
+  return (
+    <Wrapper>
+      <Hello name="react" color="red" isSpecial={true} />   //{true} 생략 가능. 생략하면 true로 간주
+      <Hello color="pink" />
+    </Wrapper>
+  );
+}
+
+export default App;
+
+```
+
+:file_folder:Hello.js
+
+```
+import React from 'react';
+
+function Hello({ color, name, isSpecial }) {
+    return (
+    <div style={{
+        color
+    }}>
+        {isSpecial ? <b>*</b> : null }
+        안녕하세요 {name}
+    </div>
+    );
+}
+
+Hello.defaultProps = {
+    name: '이름없음'
+};
+
+export default Hello;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133430864-bdfaadb5-0e42-4cd8-9231-065a7e91d7ec.png>
+
+:point_down:
+
+>&&연산자 (단순히 숨기고 보여주고)
+
+:file_folder:Hello.js
+
+```
+import React from 'react';
+
+function Hello({ color, name, isSpecial }) {
+    return (
+    <div style={{
+        color
+    }}>
+        {isSpecial && <b>*</b> }
+        안녕하세요 {name}
+    </div>
+    );
+}
+
+Hello.defaultProps = {
+    name: '이름없음'
+};
+
+export default Hello;
+```
+
+---
+### :blue_heart:useState를 통해 컴포넌트에서 바뀌는 값 관리하기
+
+:file_folder:App.js
+
+```
+import React from 'react';
+import Counter from './Counter';
+
+
+function App() {
+  return (
+    <Counter />
+  );
+}
+
+export default App;
+
+```
+
+:file_folder:Counter.js
+
+```
+import React, { useState } from 'react';
+
+function Counter() {
+    const [number, setNumber] = useState(0);
+
+    const onIncrease = () => {
+        setNumber(prevNumber => prevNumber + 1);   //함수형
+    }
+
+    const onDecrease = () => {
+        setNumber(prevNumber => prevNumber -1);   // setNumber(number -1); 로도 쓸수있음
+    }
+    return (
+        <div>
+            <h1>{number}</h1>
+            <button onClick={onIncrease}>+1</button>
+            <button onClick={onDecrease}>-1</button>
+        </div>
+    )
+}
+
+export default Counter;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133435426-a6da2ecd-2b5f-413a-a67b-d9a8f07bba9b.png>
