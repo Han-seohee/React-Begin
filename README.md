@@ -535,3 +535,132 @@ export default InputSample;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133443683-c9010f18-6889-47e3-9f46-f4c1d1b19f59.png>
+
+---
+### :blue_heart: useRef로 특정 DOM 선택하기 (초기화 버튼 누르면 focus 변경)
+
+:file_folder: InputSample.js
+
+```
+import React, { useState, useRef } from 'react';
+
+function InputSample() {
+    const [inputs, setInputs] = useState({
+        name: '',
+        nickname: '',
+    });
+    const nameInput = useRef();
+    const { name, nickname } = inputs;
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+
+        setInputs ({
+            ...inputs,
+            [name]: value,
+        });
+    };
+
+    const onReset = () => {
+        setInputs({
+            name: '',
+            nickname: '',
+        });
+        nameInput.current.focus();
+    };
+
+    return (
+        <div>
+            <input 
+            name="name" 
+            placeholder="이름"
+            onChange={onChange} 
+            value={name} 
+            ref={nameInput}
+            />
+            <input 
+            name="nickname" 
+            placeholder="닉네임" 
+            onChange={onChange} 
+            value={nickname} 
+            />
+            <button onClick={onReset}>초기화</button>
+            <div>
+                <b>값: </b>
+                {name} ({nickname})
+            </div>
+        </div>
+    );
+}
+
+export default InputSample;
+```
+
+---
+### :blue_heart: 배열 렌더링하기
+
+:file_folder:App.js
+
+```
+import React from 'react';
+import UserList from './UserList';
+
+
+function App() {
+  return (
+    <UserList />
+  )
+}
+
+export default App;
+```
+
+:file_folder:UserList.js
+
+```
+import React from 'react';
+
+function User({ user }) {
+    return (
+        <div>
+            <b>{user.username}</b> <span>({user.email})</span>
+        </div>
+    );
+}
+
+function UserList() {
+    const users = [
+        {
+            id: 1,
+            username: 'seohee',
+            email: 'a67114585a@gmail.com'
+        },
+        {
+            id: 2,
+            username: 'tester',
+            email: 'tester@example.com'
+        },
+        {
+            id: 3,
+            username: 'liz',
+            email: 'liz@example.com'
+        }
+    ];
+
+    return (
+        <div>
+            {
+                users.map(
+                    (user, index) => (<User user={user} key={user.id} />)
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133449641-6048566c-7eab-49e1-badc-2d73c2a74fe1.png>
