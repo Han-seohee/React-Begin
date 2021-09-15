@@ -992,3 +992,263 @@ const onCreate = () => {
 
 export default App;
 ```
+
+---
+2021.09.16
+### :blue_heart: 배열에 항목 제거하기 filter
+
+:file_folder:App.js
+
+```
+import React, { useDebugValue, useRef, useState } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com'
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com'
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com'
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+};
+
+const onRemove = id => {
+  setUsers(users.filter(user => user.id !== id));
+};
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users} onRemove={onRemove} />
+    </>
+  )
+}
+
+export default App;
+```
+
+:file_folder:UserList.js
+
+```
+import React from 'react';
+
+function User({ user, onRemove }) {
+    const { username, email, id } = user;
+    return (
+        <div>
+            <b>{username}</b> <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+}
+
+function UserList({ users, onRemove }) {
+
+    return (
+        <div>
+            {
+                users.map(
+                    (user, index) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133459015-a0e77287-dfaf-40e0-b1b4-c17f4605ccf0.png>
+
+---
+### :blue_heart: 배열에 항목 수정하기 map
+
+:file_folder:App.js
+
+```
+import React, { useDebugValue, useRef, useState } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com',
+        active: true,
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com',
+        active: false,
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com',
+        active: false,
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+};
+
+const onRemove = id => {
+  setUsers(users.filter(user => user.id !== id));
+};
+
+const onToggle = id => {
+  setUsers(users.map(
+    user => user.id === id
+    ? { ...user, active: !user.active }
+    : user
+  ));
+};
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+    </>
+  )
+}
+
+export default App;
+```
+
+:file_folder: UserList.js
+
+```
+import React from 'react';
+
+function User({ user, onRemove, onToggle }) {
+    const { username, email, id, active } = user;
+    return (
+        <div>
+            <b
+                style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={() => onToggle(id)}
+            >
+            {username}
+            </b> 
+            &nbsp;
+            <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+}
+
+function UserList({ users, onRemove, onToggle }) {
+    return (
+        <div>
+            {
+                users.map(
+                    (user) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    onToggle={onToggle}
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133461268-5f23b04b-6ed2-47c6-bb66-2e2e1ec7ad6b.png>
