@@ -1252,3 +1252,551 @@ export default UserList;
 :mag:
 
 <img src=https://user-images.githubusercontent.com/86407453/133461268-5f23b04b-6ed2-47c6-bb66-2e2e1ec7ad6b.png>
+
+---
+### :blue_heart: useEffact를 사용하여 마운트언마운트 업데이트시 할 작업 설정하기
+
+>useEffect Hook
+
+:file_folder:UserList.js
+
+```
+import React, { useEffect } from 'react';
+
+function User({ user, onRemove, onToggle }) {
+    const { username, email, id, active } = user;
+    useEffect(() => {
+        console.log('컴포넌트가 화면에 나타남');
+        // props -> state
+        // REST API
+        // D3 Video.js
+        // setInterval, setTimeout
+        return () => {
+            // clearInterval, clearTimeout
+            // 라이브러리에 인스턴스 제거
+            console.log('컴포넌트가 화면에서 사라짐');
+        }
+    }, []);
+    return (
+        <div>
+            <b
+                style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={() => onToggle(id)}
+            >
+            {username}
+            </b> 
+            &nbsp;
+            <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+}
+
+function UserList({ users, onRemove, onToggle }) {
+    return (
+        <div>
+            {
+                users.map(
+                    (user) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    onToggle={onToggle}
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+>user값
+
+:file_folder:UserList.js
+
+```
+import React, { useEffect } from 'react';
+
+function User({ user, onRemove, onToggle }) {
+    const { username, email, id, active } = user;
+    
+    useEffect(() => {
+        console.log('user 값이 설정됨');
+        console.log(user);
+        return () => {
+            console.log('user 값이 바뀌기 전');
+            console.log(user);
+        }
+    }, [user]);
+
+    return (
+        <div>
+            <b
+                style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={() => onToggle(id)}
+            >
+            {username}
+            </b> 
+            &nbsp;
+            <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+}
+
+function UserList({ users, onRemove, onToggle }) {
+    return (
+        <div>
+            {
+                users.map(
+                    (user) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    onToggle={onToggle}
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+>depth 배열 생략
+
+:file_folder:UserList.js
+
+```
+import React, { useEffect } from 'react';
+
+function User({ user, onRemove, onToggle }) {
+    const { username, email, id, active } = user;
+    
+    useEffect(() => {
+        console.log(user);
+    });
+
+    return (
+        <div>
+            <b
+                style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={() => onToggle(id)}
+            >
+            {username}
+            </b> 
+            &nbsp;
+            <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+}
+
+function UserList({ users, onRemove, onToggle }) {
+    return (
+        <div>
+            {
+                users.map(
+                    (user) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    onToggle={onToggle}
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default UserList;
+```
+
+---
+### :blue_heart:useMemo를 사용하여 연산한 값 재사용하기
+
+:file_folder:App.js
+
+```
+import React, { useRef, useState, useMemo } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+function CountActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
+}
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com',
+        active: true,
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com',
+        active: false,
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com',
+        active: false,
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+};
+
+const onRemove = id => {
+  setUsers(users.filter(user => user.id !== id));
+};
+
+const onToggle = id => {
+  setUsers(users.map(
+    user => user.id === id
+    ? { ...user, active: !user.active }
+    : user
+  ));
+};
+
+  const count = useMemo(() => CountActiveUsers(users), [users]);
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성 사용자 수 : {count}</div>
+    </>
+  )
+}
+
+export default App;
+```
+
+:mag:
+
+<img src=https://user-images.githubusercontent.com/86407453/133531681-b4b4fa9f-9e39-4dbe-b205-be39e5a970fd.png>
+
+---
+### :blue_heart: useCallback 를 사용하여 함수 재사용하기
+
+:file_folder:App.js
+
+```
+import React, { useRef, useState, useMemo, useCallback } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+function CountActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
+}
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }, [inputs]);
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com',
+        active: true,
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com',
+        active: false,
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com',
+        active: false,
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = useCallback(() => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+}, [username, email, users]);
+
+const onRemove = useCallback(id => {
+  setUsers(users.filter(user => user.id !== id));
+}, [users]);
+
+const onToggle = useCallback(id => {
+  setUsers(users.map(
+    user => user.id === id
+    ? { ...user, active: !user.active }
+    : user
+  ));
+},[users]); 
+
+  const count = useMemo(() => CountActiveUsers(users), [users]);
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성 사용자 수 : {count}</div>
+    </>
+  )
+}
+
+export default App;
+```
+
+---
+### :blue_heart: React.memo를 사용한 컴포넌트 리렌더링 방지
+>컴포넌트의 리렌더링 성능을 최적화 할 수 있음
+
+:file_folder:App.js
+
+```
+import React, { useRef, useState, useMemo, useCallback } from 'react';
+import CreateUser from './CreateUser';
+import UserList from './UserList';
+
+function CountActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
+}
+function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: '',
+  });
+  const { username, email } = inputs;
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  }, [inputs]);
+  const [users, setUsers] = useState ([
+    {
+        id: 1,
+        username: 'seohee',
+        email: 'a67114585a@gmail.com',
+        active: true,
+    },
+    {
+        id: 2,
+        username: 'tester',
+        email: 'tester@example.com',
+        active: false,
+    },
+    {
+        id: 3,
+        username: 'liz',
+        email: 'liz@example.com',
+        active: false,
+    }
+]);
+
+const nextId = useRef(4);
+
+const onCreate = useCallback(() => {
+  const user = {
+    id: nextId.current,
+    username,
+    email,
+  };
+  setUsers(users => users.concat(user));
+  setInputs({
+    username: '',
+    email: ''
+  });
+  nextId.current += 1;
+}, [username, email]);
+
+const onRemove = useCallback(id => {
+  setUsers(users => users.filter(user => user.id !== id));
+}, []);
+
+const onToggle = useCallback(id => {
+  setUsers(users => users.map(
+    user => user.id === id
+    ? { ...user, active: !user.active }
+    : user
+  ));
+},[]); 
+
+  const count = useMemo(() => CountActiveUsers(users), [users]);
+
+  return (
+    <>
+      <CreateUser 
+      username={username} 
+      email={email} 
+      onChange={onChange}
+      onCreate={onCreate}
+      />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성 사용자 수 : {count}</div>
+    </>
+  )
+}
+
+export default App;
+```
+
+:file_folder:UserList.js
+
+```import React, { useEffect } from 'react';
+
+const User = React.memo(function User({ user, onRemove, onToggle }) {
+    const { username, email, id, active } = user;
+    
+    useEffect(() => {
+        console.log(user);
+    });
+
+    return (
+        <div>
+            <b
+                style={{
+                color: active ? 'green' : 'black',
+                cursor: 'pointer'
+            }}
+            onClick={() => onToggle(id)}
+            >
+            {username}
+            </b> 
+            &nbsp;
+            <span>({email})</span>
+            <button onClick={() => onRemove(id)}>삭제</button>
+        </div>
+    );
+});
+
+function UserList({ users, onRemove, onToggle }) {
+    return (
+        <div>
+            {
+                users.map(
+                    (user) => (
+                    <User 
+                    user={user} 
+                    key={user.id} 
+                    onRemove={onRemove} 
+                    onToggle={onToggle}
+                    />
+                    )
+                )
+            }
+        </div>
+    );
+}
+
+export default React.memo(
+    UserList, (prevProps, nextProps) => nextProps.users === prevProps.users
+    );
+```
+
+:file_folder:CreateUser.js
+
+```
+import React from 'react';
+
+function CreateUser({ username, email, onChange, onCreate }) {
+    console.log('CreateUser');
+    return (
+        <div>
+            <input
+            name="username"
+            placeholder="계정명"
+            onChange={onChange}
+            value={username}
+            />
+            <input
+            name="email"
+            placeholder="이메일"
+            onChange={onChange}
+            value={email} />
+            <button onClick={onCreate}>등록</button>
+        </div>
+    );
+}
+
+export default React.memo(CreateUser);
+```
