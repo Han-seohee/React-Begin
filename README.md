@@ -4,7 +4,7 @@
 
 :file_folder: App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 
@@ -24,7 +24,7 @@ export default App;
 
 :file_folder: Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello() {
@@ -80,7 +80,7 @@ export default Hello;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 
@@ -96,7 +96,7 @@ export default App;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello(props) {
@@ -115,7 +115,7 @@ export default Hello;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 
@@ -131,7 +131,7 @@ export default App;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello(props) {
@@ -148,7 +148,7 @@ export default Hello;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello({ color, name }) {
@@ -169,7 +169,7 @@ export default Hello;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 
@@ -188,7 +188,7 @@ export default App;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello({ color, name }) {
@@ -212,7 +212,7 @@ export default Hello;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -234,7 +234,7 @@ export default App;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello({ color, name }) {
@@ -252,7 +252,7 @@ export default Hello;
 
 :file_folder:Wrapper.js
 
-```
+```js
 import React from 'react';
 
 function Wrapper( { children } ) {
@@ -280,7 +280,7 @@ export default Wrapper;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Hello from './Hello';
 import Wrapper from './Wrapper';
@@ -302,7 +302,7 @@ export default App;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello({ color, name, isSpecial }) {
@@ -333,7 +333,7 @@ export default Hello;
 
 :file_folder:Hello.js
 
-```
+```js
 import React from 'react';
 
 function Hello({ color, name, isSpecial }) {
@@ -359,7 +359,7 @@ export default Hello;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import Counter from './Counter';
 
@@ -376,7 +376,7 @@ export default App;
 
 :file_folder:Counter.js
 
-```
+```js
 import React, { useState } from 'react';
 
 function Counter() {
@@ -410,7 +410,7 @@ export default Counter;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import InputSample from './InputSample';
 
@@ -426,7 +426,7 @@ export default App;
 
 :file_folder:InputSample.js
 
-```
+```js
 import React, { useState } from 'react';
 
 function InputSample() {
@@ -464,7 +464,7 @@ export default InputSample;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import InputSample from './InputSample';
 
@@ -480,7 +480,7 @@ export default App;
 
 :file_folder:InputSample.js
 
-```
+```js
 import React, { useState } from 'react';
 
 function InputSample() {
@@ -541,7 +541,7 @@ export default InputSample;
 
 :file_folder: InputSample.js
 
-```
+```js
 import React, { useState, useRef } from 'react';
 
 function InputSample() {
@@ -601,7 +601,7 @@ export default InputSample;
 
 :file_folder:App.js
 
-```
+```js
 import React from 'react';
 import UserList from './UserList';
 
@@ -617,7 +617,7 @@ export default App;
 
 :file_folder:UserList.js
 
-```
+```js
 import React from 'react';
 
 function User({ user }) {
@@ -672,7 +672,7 @@ export default UserList;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useRef } from 'react';
 import UserList from './UserList';
 
@@ -715,7 +715,7 @@ export default App;
 
 :file_folder:UserList.js
 
-```
+```js
 import React from 'react';
 
 function User({ user }) {
@@ -747,7 +747,7 @@ export default UserList;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useDebugValue, useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -813,7 +813,7 @@ export default App;
 
 :file_folder:CreateUser.js
 
-```
+```js
 import React from 'react';
 
 function CreateUser({ username, email, onChange, onCreate }) {
@@ -848,7 +848,7 @@ export default CreateUser;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useDebugValue, useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -924,7 +924,7 @@ export default App;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useDebugValue, useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -999,7 +999,7 @@ export default App;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useDebugValue, useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -1074,7 +1074,7 @@ export default App;
 
 :file_folder:UserList.js
 
-```
+```js
 import React from 'react';
 
 function User({ user, onRemove }) {
@@ -1118,7 +1118,7 @@ export default UserList;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useDebugValue, useRef, useState } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -1204,7 +1204,7 @@ export default App;
 
 :file_folder: UserList.js
 
-```
+```js
 import React from 'react';
 
 function User({ user, onRemove, onToggle }) {
@@ -1260,7 +1260,7 @@ export default UserList;
 
 :file_folder:UserList.js
 
-```
+```js
 import React, { useEffect } from 'react';
 
 function User({ user, onRemove, onToggle }) {
@@ -1321,7 +1321,7 @@ export default UserList;
 
 :file_folder:UserList.js
 
-```
+```js
 import React, { useEffect } from 'react';
 
 function User({ user, onRemove, onToggle }) {
@@ -1380,7 +1380,7 @@ export default UserList;
 
 :file_folder:UserList.js
 
-```
+```js
 import React, { useEffect } from 'react';
 
 function User({ user, onRemove, onToggle }) {
@@ -1435,7 +1435,7 @@ export default UserList;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useRef, useState, useMemo } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -1534,7 +1534,7 @@ export default App;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useRef, useState, useMemo, useCallback } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -1630,7 +1630,7 @@ export default App;
 
 :file_folder:App.js
 
-```
+```js
 import React, { useRef, useState, useMemo, useCallback } from 'react';
 import CreateUser from './CreateUser';
 import UserList from './UserList';
@@ -1722,7 +1722,8 @@ export default App;
 
 :file_folder:UserList.js
 
-```import React, { useEffect } from 'react';
+```js
+import React, { useEffect } from 'react';
 
 const User = React.memo(function User({ user, onRemove, onToggle }) {
     const { username, email, id, active } = user;
@@ -1775,7 +1776,7 @@ export default React.memo(
 
 :file_folder:CreateUser.js
 
-```
+```js
 import React from 'react';
 
 function CreateUser({ username, email, onChange, onCreate }) {
